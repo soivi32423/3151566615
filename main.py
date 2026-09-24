@@ -39,8 +39,7 @@ OFFER_TEXT = (
     "Хочешь войти глубже — пиши сразу:\n\n"
     "@marko_bully\n\n"
     "Только по делу."
- )
- await message.answer(OFFER_TEXT, parse_mode='HTML')
+)
 
 # Данные тестов (вопросы, варианты и баллы)
 TESTS_DATA = {
