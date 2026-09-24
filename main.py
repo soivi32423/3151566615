@@ -1,6 +1,7 @@
 import asyncio
 import logging
 from aiogram import Bot, Dispatcher, F
+from aiogram.client.default import DefaultBotProperties
 from aiogram.filters import CommandStart
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
@@ -14,7 +15,8 @@ TOKEN = "8731546802:AAEe0tEjb5c7YcsL6tHFEcDB2KSP5T58dOk"
 # Включаем логирование
 logging.basicConfig(level=logging.INFO)
 
-bot = Bot(token=TOKEN)
+# Указываем default=DefaultBotProperties(parse_mode='HTML'), чтобы теги <b> работали везде автоматически
+bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode='HTML'))
 dp = Dispatcher()
 
 
@@ -23,19 +25,19 @@ class TestState(StatesGroup):
     choosing_answer = State()
 
 
-# Тексты оферов в конце теста
+# Тексты оферов в конце теста (с жирным шрифтом)
 OFFER_TEXT = (
-    "Результат теста — только начало.\n\n"
+    "<b>Результат теста — только начало.</b>\n\n"
     "Ты уже видишь, куда тебя тянет. Пора перестать стесняться и брать от этого максимум.\n\n"
     "Что дальше:\n\n"
-    "Методичка «Эталонный Куколд»\n\n"
+    "<b>Методичка «Эталонный Куколд»</b>\n\n"
     "Полное руководство для тех, кто хочет разобраться и выстроить всё правильно.\n"
-    "Со скидкой 50%: 1555 ₽ (или 20 USDT)\n\n"
-    "Закрытый канал\n\n"
+    "<b>Со скидкой 50%: 1555 ₽ (или 20 USDT)</b>\n\n"
+    "<b>Закрытый канал</b>\n\n"
     "Эксклюзивный контент со встреч, реальные истории и то, чего нет в открытом доступе.\n"
-    "Со скидкой 40%: 4800 ₽ (или 60 USDT)\n\n"
-    "Доступ навсегда!\n"
-    "АКЦИЯ действительна только 25-27 сентября 2026!\n\n"
+    "<b>Со скидкой 40%: 4800 ₽ (или 60 USDT)</b>\n\n"
+    "<b>Доступ навсегда!</b>\n"
+    "<b>АКЦИЯ действительна только 25-27 сентября 2026!</b>\n\n"
     "Хочешь войти глубже — пиши сразу:\n\n"
     "@marko_bully\n\n"
     "Только по делу."
