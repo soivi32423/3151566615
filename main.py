@@ -3,10 +3,13 @@ import logging
 from aiogram import Bot, Dispatcher, F
 from aiogram.client.default import DefaultBotProperties
 from aiogram.filters import CommandStart
-from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
+from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import (
-    Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
+    CallbackQuery,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Message,
 )
 
 # Токен твоего бота (получи у @BotFather)
@@ -15,14 +18,34 @@ TOKEN = "8731546802:AAEe0tEjb5c7YcsL6tHFEcDB2KSP5T58dOk"
 # Включаем логирование
 logging.basicConfig(level=logging.INFO)
 
-# Указываем default=DefaultBotProperties(parse_mode='HTML'), чтобы теги <b> работали везде автоматически
-bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode='HTML'))
-dp = Dispatcher()
-
 
 # Состояния для прохождения теста
 class TestState(StatesGroup):
     choosing_answer = State()
+
+
+# Главная функция для запуска бота
+async def main():
+    # Создаем бота и диспетчер
+    bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode="HTML"))
+    dp = Dispatcher()
+
+    # --- УДАЛЯЕМ СТАРЫЙ ВЕБХУК (избавляет от ошибки Conflict) ---
+    await bot.delete_webhook(drop_pending_updates=True)
+
+    logging.info("Бот запущен и готов к работе!")
+
+    # Запускаем поллинг
+    await dp.start_polling(bot)
+
+
+# Точка входа в программу
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("Бот остановлен!")
+
 
 
 # Тексты оферов в конце теста (с жирным шрифтом)
