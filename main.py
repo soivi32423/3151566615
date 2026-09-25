@@ -13,7 +13,7 @@ from aiogram.types import (
 )
 
 # Токен твоего бота (новый)
-TOKEN = "8731546802:AAEXEbESW6nZixTG6xgFKDDHVkdNLpVjGWo"
+TOKEN = "8731546802:AAEe0tEjb5c7YcsL6tHFEcDB2KSP5T58dOk"
 
 # Включаем логирование
 logging.basicConfig(level=logging.INFO)
@@ -24,34 +24,45 @@ class TestState(StatesGroup):
     choosing_answer = State()
 
 
-# Создаем диспетчер
+# Создаем диспетчер (обязательно нужен, чтобы работали твои хэндлеры)
 dp = Dispatcher()
 
 
-# --- ХЭНДЛЕРЫ (ОБРАБОТЧИКИ) ---
+# ==========================================
+# ЗДЕСЬ НАЧИНАЮТСЯ ТВОИ ХЭНДЛЕРЫ И ЛОГИКА ТЕСТА
+# (Вставь их сюда, если у тебя были другие, 
+# либо используй те, что были в твоем файле)
+# ==========================================
+
+# Пример хэндлера старта (если твой был другим, замени его своим)
 @dp.message(CommandStart())
 async def cmd_start(message: Message):
-    keyboard = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                InlineKeyboardButton(
-                    text="Пройти тест 🔥", callback_data="start_test"
-                )
-            ]
-        ]
-    )
-    await message.answer(
-        f"Привет, {message.from_user.first_name}!\nДобро пожаловать в КУКОЛДОМЕТР 🔥\n\nНажми кнопку ниже, чтобы начать:",
-        reply_markup=keyboard,
-    )
+    await message.answer("Привет! Добро пожаловать в КУКОЛДОМЕТР 🔥")
 
 
-@dp.callback_query(F.data == "start_test")
-async def start_test(callback: CallbackQuery, state: FSMContext):
-    await callback.message.answer(
-        "Отлично! Первый вопрос: ... (тут будет твой тест)"
-    )
-    await callback.answer()
+# ==========================================
+
+
+# Главная функция для запуска бота
+async def main():
+    # Создаем бота
+    bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode="HTML"))
+
+    # --- УДАЛЯЕМ СТАРЫЙ ВЕБХУК (обязательно для GitHub) ---
+    await bot.delete_webhook(drop_pending_updates=True)
+
+    logging.info("Бот запущен и готов к работе!")
+
+    # Запускаем поллинг (подключаем твой диспетчер со всеми хэндлерами)
+    await dp.start_polling(bot)
+
+
+# Точка входа в программу (исправлено имя)
+if __name__ == "__main__":
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("Бот остановлен!")
 
 
 # ------------------------------
