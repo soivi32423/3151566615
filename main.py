@@ -10,7 +10,7 @@ from aiogram.types import (
 )
 
 # Токен твоего бота (получи у @BotFather)
-TOKEN = "8731546802:AAEe0tEjb5c7YcsL6tHFEcDB2KSP5T58dOk"
+TOKEN = "8731546802:AAEXEbESW6nZixTG6xgFKDDHVkdNLpVjGWo"
 
 # Включаем логирование
 logging.basicConfig(level=logging.INFO)
