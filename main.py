@@ -37,7 +37,7 @@ dp = Dispatcher()
 # Пример хэндлера старта (если твой был другим, замени его своим)
 @dp.message(CommandStart())
 async def cmd_start(message: Message):
-    await message.answer("Привет! Добро пожаловать в КУКОЛДОМЕТР 🔥")
+    await message.answer
 
 
 # ==========================================
